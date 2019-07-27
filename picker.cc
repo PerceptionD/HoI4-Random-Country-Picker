@@ -1,6 +1,8 @@
 #include "support.h"
+#include <stdexcept>
 
-int main() {
+int main()
+try {
   bool releasable = ask_question(
       "Would you like to include releasable countries? (y/n) ");
 
@@ -16,16 +18,31 @@ int main() {
   populate_list(nonalignable, "nonalignable");
 
   srand(time(NULL));
-  std::string country = countryVec[rand() % countryVec.size()];
-  std::cout << "Country: " << remove_underscore(country) << std::endl;
+  
+  bool again = true;
+  while (again) {
+    std::string country = countryVec[rand() % countryVec.size()];
+    std::cout << "Country: " << remove_underscore(country) << std::endl;
 
-  if (std::count(nonalignable.begin(), nonalignable.end(), country) == 0)
-    ideologyVec.erase(std::remove(ideologyVec.begin(), ideologyVec.end(),
-        "Non-Aligned"), ideologyVec.end());
-  ideology = ideologyVec[rand() % ideologyVec.size()];
+    if (std::count(nonalignable.begin(), nonalignable.end(), country) == 0)
+      ideologyVec.erase(std::remove(ideologyVec.begin(), ideologyVec.end(),
+          "Non-Aligned"), ideologyVec.end());
+    ideology = ideologyVec[rand() % ideologyVec.size()];
 
-  std::cout << "Ideology: " << ideology << std::endl;
-  std::cin.ignore(1);  // clear cin stream and keep the window open for input
-  std::cin.get();
+    std::cout << "Ideology: " << ideology << std::endl;
+    again = ask_question("Would you like to generate another? (y/n)");
+  }
   return 0;
+}
+
+catch (std::exception& e) {
+    std::cerr << "error: " << e.what() << '\n';
+    std::cin.get();
+    return 1;
+}
+
+catch (...) {
+    std::cerr << "Oops: unknown exception!\n";
+    std::cin.get();
+    return 2;
 }

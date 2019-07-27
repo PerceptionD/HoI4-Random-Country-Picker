@@ -1,6 +1,7 @@
 #include "support.h"
 
-void populate_list(std::vector<std::string>& countryList, std::string fileName) {
+void populate_list(
+    std::vector<std::string>& countryList, std::string fileName) {
   std::ifstream ist { fileName };
   std::string name;
   while (ist>>name)
