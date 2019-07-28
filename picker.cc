@@ -3,24 +3,26 @@
 
 int main()
 try {
-  bool releasable = ask_question(
-      "Would you like to include releasable countries? (y/n) ");
+    std::vector<std::string> countryVec;
+    std::vector<std::string> ideologyVec;
+    std::vector<std::string> nonalignable;
+    std::string ideology;
 
-  std::vector<std::string> countryVec;
-  std::vector<std::string> ideologyVec;
-  std::vector<std::string> nonalignable;
-  std::string ideology;
+    populate_list(ideologyVec, "ideology");
+    populate_list(nonalignable, "nonalignable");
+
+    bool again = true;
+    while (again) {
+    bool releasable = ask_question(
+      "Would you like to include releasable countries? (y/n) ");
 
   if (releasable) 
     populate_list(countryVec, "releasable");
   populate_list(countryVec, "countrylist");
-  populate_list(ideologyVec, "ideology");
-  populate_list(nonalignable, "nonalignable");
+
 
   srand(time(NULL));
   
-  bool again = true;
-  while (again) {
     std::string country = countryVec[rand() % countryVec.size()];
     std::cout << "Country: " << remove_underscore(country) << std::endl;
 
@@ -31,6 +33,7 @@ try {
 
     std::cout << "Ideology: " << ideology << std::endl;
     again = ask_question("Would you like to generate another? (y/n)");
+    countryVec.clear();
   }
   return 0;
 }
