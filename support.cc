@@ -1,11 +1,11 @@
 #include "support.h"
 
 void populate_list(
-    std::vector<std::string>& countryList, std::string fileName) {
-  std::ifstream ist { fileName };
-  std::string name;
-  while (ist>>name)
-    countryList.push_back(name);
+    std::vector<std::string>& countryList, const std::string& fileName) {
+    std::ifstream ist{ fileName };
+    std::string name;
+    while (ist >> name)
+        countryList.push_back(name);
 }
 
 bool ask_question(std::string question) {
@@ -19,8 +19,30 @@ bool ask_question(std::string question) {
   return false;
 }
 
-std::string remove_underscore(std::string phrase) {
-  for (int i = 0; i < phrase.size(); ++i)
-    if (phrase[i] == '_') phrase[i] = ' ';
-  return phrase;
+std::string nation::remove_underscore(nation& country) {
+  for (int i = 0; i < country.country.size(); ++i)
+    if (country.country[i] == '_') country.country[i] = ' ';
+  return country.country;
+}
+std::string nation::remove_releaser_underscore(nation& country) {
+    for (int i = 0; i < country.releaser.size(); ++i)
+        if (country.releaser[i] == '_') country.releaser[i] = ' ';
+    return country.releaser;
+}
+
+void nation::populate_pair_list(
+    std::vector<nation>& countryVec, const std::string& fileName){
+    std::ifstream ist{ fileName };
+    nation country;
+    while (ist >> country.country >> country.releaser)
+        countryVec.emplace_back(country);
+
+}
+
+void nation::populate_country_list(
+    std::vector<nation>& countryList, const std::string& fileName) {
+    std::ifstream ist{ fileName };
+    nation name;
+    while (ist >> name.country)
+        countryList.emplace_back(name);
 }

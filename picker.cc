@@ -3,7 +3,7 @@
 
 int main()
 try {
-    std::vector<std::string> countryVec;
+    std::vector<nation> countryVec;
     std::vector<std::string> ideologyVec;
     std::vector<std::string> nonalignable;
     std::string ideology;
@@ -17,16 +17,20 @@ try {
       "Would you like to include releasable countries? (y/n) ");
 
   if (releasable) 
-    populate_list(countryVec, "releasable");
-  populate_list(countryVec, "countrylist");
+    nation::populate_pair_list(countryVec, "releasable");
+  nation::populate_country_list(countryVec, "countrylist");
 
 
   srand(time(NULL));
   
-    std::string country = countryVec[rand() % countryVec.size()];
-    std::cout << "Country: " << remove_underscore(country) << std::endl;
+    nation country = countryVec[rand() % countryVec.size()];
+    std::cout << "Country: " << nation::remove_underscore(country);
+    if (country.releaser != "")
+        std::cout << " (" << nation::remove_releaser_underscore(country) 
+        << ")" << std::endl;
+    else std::cout << std::endl;
 
-    if (std::count(nonalignable.begin(), nonalignable.end(), country) == 0)
+    if (std::count(nonalignable.begin(), nonalignable.end(), country.country) == 0)
       ideologyVec.erase(std::remove(ideologyVec.begin(), ideologyVec.end(),
           "Non-Aligned"), ideologyVec.end());
     ideology = ideologyVec[rand() % ideologyVec.size()];
